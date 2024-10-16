@@ -1,6 +1,25 @@
 from flask import Flask, url_for, redirect
 app = Flask(__name__)
 
+@app.route("/")
+@app.route("/index")
+def main_page():
+    return '''
+        <!doctype html>
+            <html>
+                <head>
+                    <title>НГТУ, ФБ, Лабораторные работы</title>
+                </head>
+                <body>
+                    <header>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</header>
+                    <main>
+                        <a href="/lab1">Первая лабораторная</a>
+                    </main>
+                    <footer>(Чернышов Марк Сергеевич, ФБИ-22, 3 курс, 2024</footer>
+                </body>
+            </html>
+        '''
+
 @app.errorhandler(404)
 def not_found(err):
     return "нет такой страницы", 404
@@ -38,15 +57,15 @@ def oak():
     css_path = url_for("static", filename="lab1.css")
     return '''
         <!doctype html>
-        <html>
-            <head>
-                <link rel="stylesheet" href="''' + css_path + '''">
-            </head>
-            <body>
-                <h1>Дуб</h1>
-                <img scr="'''+ path +'''">
-            </body>
-        </html>
+            <html>
+                <head>
+                    <link rel="stylesheet" href="''' + css_path + '''">
+                </head>
+                <body>
+                    <h1>Дуб</h1>
+                    <img scr="'''+ path +'''">
+                </body>
+            </html>
         '''        
 
 count = 0
@@ -57,11 +76,11 @@ def counter():
     count += 1
     return '''
         <!doctype html>
-        <html>
-            <body>
-                Сколько раз вы сюда заходили: ''' + str(count) + '''
-            </body>
-        </html>
+            <html>
+                <body>
+                    Сколько раз вы сюда заходили: ''' + str(count) + '''
+                </body>
+            </html>
         '''
 
 @app.route('/lab1/cleaner')
@@ -70,12 +89,12 @@ def cleaner():
     count = 0
     return '''
         <!doctype html>
-        <html>
-            <body>
-                <p> Счетчит сброшен успешно</p>
-                <a href="/lab1/counter"> Вернуться к счетчику </a>
-            </body>
-        </html>
+            <html>
+                <body>
+                    <p> Счетчит сброшен успешно</p>
+                    <a href="/lab1/counter"> Вернуться к счетчику </a>
+                </body>
+            </html>
         '''
 
 @app.route("/lab1/info")
@@ -86,10 +105,10 @@ def info():
 def created():
     return '''
         <!doctype html>
-        <html>
-            <body>
-                <h1>Создано успешно</h1>
-                <div><i>что-то создано...</i></div>
-            </body>
-        </html>
+            <html>
+                <body>
+                    <h1>Создано успешно</h1>
+                    <div><i>что-то создано...</i></div>
+                </body>
+            </html>
         ''', 201            
