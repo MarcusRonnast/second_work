@@ -11,11 +11,11 @@ def web():
         <html>
            <body>
                <h1>web-сервер на flask</h1>
-               <a href="/author">web</a>
+               <a href="/author">author</a>
            </body>
         </html>""", 200, {
             'X-Server': 'sample',
-            'Content-Type': 'text/plain; charset=utf-8'
+            'Content-Type': 'text/html; charset=utf-8'
         }
 @app.route("/author")
 def author():
@@ -37,17 +37,17 @@ def oak():
     path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
     return '''
-<!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" href="''' + css_path + '''">
-    </head>
-    <body>
-        <h1>Дуб</h1>
-        <img scr="'''+ path +'''">
-    </body>
-</html>
-'''        
+        <!doctype html>
+        <html>
+            <head>
+                <link rel="stylesheet" href="''' + css_path + '''">
+            </head>
+            <body>
+                <h1>Дуб</h1>
+                <img scr="'''+ path +'''">
+            </body>
+        </html>
+        '''        
 
 count = 0
 
@@ -56,13 +56,27 @@ def counter():
     global count
     count += 1
     return '''
-<!doctype html>
-<html>
-    <body>
-        Сколько раз вы сюда заходили: ''' + str(count) + '''
-    </body>
-</html>
-'''            
+        <!doctype html>
+        <html>
+            <body>
+                Сколько раз вы сюда заходили: ''' + str(count) + '''
+            </body>
+        </html>
+        '''
+
+@app.route('/lab1/cleaner')
+def cleaner():
+    global count
+    count = 0
+    return '''
+        <!doctype html>
+        <html>
+            <body>
+                <p> Счетчит сброшен успешно</p>
+                <a href="/lab1/counter"> Вернуться к счетчику </a>
+            </body>
+        </html>
+        '''
 
 @app.route("/info")
 def info():
@@ -71,11 +85,11 @@ def info():
 @app.route("/lab1/created")
 def created():
     return '''
-<!doctype html>
-<html>
-    <body>
-        <h1>Создано успешно</h1>
-        <div><i>что-то создано...</i></div>
-    </body>
-</html>
-''', 201            
+        <!doctype html>
+        <html>
+            <body>
+                <h1>Создано успешно</h1>
+                <div><i>что-то создано...</i></div>
+            </body>
+        </html>
+        ''', 201            
