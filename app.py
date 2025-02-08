@@ -1,4 +1,5 @@
 from flask import Flask, url_for, redirect
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -19,27 +20,29 @@ def main_page():
                 </body>
             </html>
         '''
+
 @app.route("/lab1")
 def lab1():
     return '''
         <!doctype html>
-                <html>
-                    <head>
-                        <title>Лабораторная 1</title>
-                    </head>
-                    <body>
-                        <p>Flask — фреймворк для создания веб-приложений на языке
-                            программирования Python, использующий набор инструментов
-                            Werkzeug, а также шаблонизатор Jinja2. Относится к категории так
-                            называемых микрофреймворков — минималистичных каркасов
-                            веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
-                            <a href="/">Корень сайта</a>
-                    </body>
-                </html>
-            '''
+            <html>
+                <head>
+                    <title>Лабораторная 1</title>
+                </head>
+                <body>
+                    <p>Flask — фреймворк для создания веб-приложений на языке
+                        программирования Python, использующий набор инструментов
+                        Werkzeug, а также шаблонизатор Jinja2. Относится к категории так
+                        называемых микрофреймворков — минималистичных каркасов
+                        веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
+                    <a href="/">Корень сайта</a>
+                </body>
+            </html>
+        '''
+
 @app.errorhandler(404)
 def not_found(err):
-    return "нет такой страницы", 404
+    return "Нет такой страницы", 404
 
 @app.route("/lab1/web")
 def web():
@@ -53,37 +56,39 @@ def web():
             'X-Server': 'sample',
             'Content-Type': 'text/html; charset=utf-8'
         }
+
 @app.route("/lab1/author")
 def author():
     name = "Чернышов Марк Сергеевич"
     group = "ФБИ-22"
     faculty = "ФБ"
 
-    return """<!doctype html>
+    return f"""<!doctype html>
         <html>
             <body>
-                <p>Студент: """ + name + """</p>
-                <p>Группа: """ + group + """</p>
-                <p>Факультет: """ + faculty + """</p>
+                <p>Студент: {name}</p>
+                <p>Группа: {group}</p>
+                <p>Факультет: {faculty}</p>
                 <a href="/lab1/web">web</a>
             </body>
-        </html>"""    
+        </html>"""
+
 @app.route('/lab1/oak')
 def oak():
     path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
-    return '''
+    return f'''
         <!doctype html>
             <html>
                 <head>
-                    <link rel="stylesheet" href="''' + css_path + '''">
+                    <link rel="stylesheet" href="{css_path}">
                 </head>
                 <body>
                     <h1>Дуб</h1>
-                    <img scr="'''+ path +'''">
+                    <img src="{path}">
                 </body>
             </html>
-        '''        
+        '''
 
 count = 0
 
@@ -91,11 +96,11 @@ count = 0
 def counter():
     global count
     count += 1
-    return '''
+    return f'''
         <!doctype html>
             <html>
                 <body>
-                    Сколько раз вы сюда заходили: ''' + str(count) + '''
+                    Сколько раз вы сюда заходили: {count}
                 </body>
             </html>
         '''
@@ -108,8 +113,8 @@ def cleaner():
         <!doctype html>
             <html>
                 <body>
-                    <p> Счетчит сброшен успешно</p>
-                    <a href="/lab1/counter"> Вернуться к счетчику </a>
+                    <p>Счётчик сброшен успешно</p>
+                    <a href="/lab1/counter">Вернуться к счетчику</a>
                 </body>
             </html>
         '''
@@ -128,4 +133,88 @@ def created():
                     <div><i>что-то создано...</i></div>
                 </body>
             </html>
-        ''', 201            
+        ''', 201
+
+def error_page(code, description):
+    return f'''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>{code}: {description}</h1>
+                </body>
+            </html>
+        ''', code
+# Страница с кодом 400 (Bad Request)
+@app.route('/400')
+def bad_request():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>400: Bad Request:Сервер не может обработать запрос из-за клиентской ошибки.</h1>
+                </body>
+            </html>
+        ''', 400
+
+# Страница с кодом 401 (Unauthorized)
+@app.route('/401')
+def unauthorized():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>401: Unauthorized:Для доступа к ресурсу требуется аутентификация.</h1>
+                </body>
+            </html>
+        ''', 401
+
+# Страница с кодом 402 (Payment Required)
+@app.route('/402')
+def payment_required():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>402: Payment Required:Необходима оплата для доступа к ресурсу.</h1>
+                </body>
+            </html>
+        ''', 402
+
+# Страница с кодом 403 (Forbidden)
+@app.route('/403')
+def forbidden():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>403: Forbidden:Доступ к ресурсу запрещён.</h1>
+                </body>
+            </html>
+        ''', 403
+
+# Страница с кодом 405 (Method Not Allowed)
+@app.route('/405')
+def method_not_allowed():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>405: Method Not Allowed:Используемый метод HTTP не поддерживается для данного ресурса.</h1>
+                </body>
+            </html>
+        ''', 405
+
+# Страница с кодом 418 (I'm a Teapot)
+@app.route('/418')
+def teapot():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>418: I'm a Teapot:Я — чайник, и я не могу заваривать кофе.</h1>
+                </body>
+            </html>
+        ''', 418
+
+if __name__ == '__main__':
+    app.run(debug=True)
