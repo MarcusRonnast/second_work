@@ -8,3 +8,15 @@ body{
     font-style: italic;
     font-size: 18pt;
 }
+.error-container {
+    color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+    text-align: center;
+}
+.img_styles{
+    height: 300px;
+    width: 400px;
+}

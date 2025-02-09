@@ -42,7 +42,24 @@ def lab1():
 
 @app.errorhandler(404)
 def not_found(err):
-    return "Нет такой страницы", 404
+    path = url_for("static", filename="404.jpg")
+    css_path = url_for("static", filename="lab1.css")    
+    return f'''
+        <!doctype html>
+            <html>
+                <head>
+                    <title>Ошибка всей твоей жизни</title>
+                    <link rel="stylesheet" href="{css_path}">
+                </head>
+                <body>
+                    <div class="error-container">
+                        <h1>Нет такой станицы и никогда не сущетвовало и никогда и не появится! Ты ошибся! Не вижу смысла тебе продолжать свое бренное существование в этом злом и порочном мире!</h1>
+                        <p>Возможно тебе стоит поменять приоритеты в жизни и найти новое занятие, которое будет приносить тебе удовольствие. Держись!</p>
+                        <img class="img_styles" src="{path}">
+                    </div>
+                </body>
+            </html>
+        ''', 404
 
 @app.route("/lab1/web")
 def web():
