@@ -235,3 +235,27 @@ def teapot():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/error')
+def cause_error():
+    # Намеренно вызываем ошибку деления на ноль
+    result = 10 / 0
+    return "Этот код никогда не выполнится."
+
+# Перехватчик ошибки 500
+@app.errorhandler(500)
+def internal_server_error(error):
+    # Пользовательская страница с сообщением об ошибке
+    return '''
+        <!doctype html>
+            <html>
+                <head>
+                    <title>Ошибка 500</title>
+                </head>
+                <body>
+                    <h1>Ошибка 500: Внутренняя ошибка сервера</h1>
+                    <p>Что-то пошло не так на сервере. Пожалуйста, попробуйте позже.</p>
+                    <a href="/">Вернуться на главную</a>
+                </body>
+            </html>
+        ''', 500
