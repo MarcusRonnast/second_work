@@ -233,8 +233,7 @@ def teapot():
             </html>
         ''', 418
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
 
 @app.route('/error')
 def cause_error():
@@ -259,3 +258,49 @@ def internal_server_error(error):
                 </body>
             </html>
         ''', 500
+
+@app.route('/football')
+def football():
+    image_path = url_for("static", filename="football.jpg")  
+    css_path = url_for("static", filename="lab1.css")
+    return f'''
+        <!doctype html>
+            <html>
+                <head>
+                    <title>Статья о футболе</title>
+                    <link rel="stylesheet" href="{css_path}">
+                </head>
+                <body>
+                    <h1 style="text-align: center;">Футбол — король спорта</h1>
+                    <img src="{image_path}" alt="Футбол" class="football">
+                    <p>
+                        Футбол — это самая популярная игра в мире, объединяющая миллионы болельщиков и игроков.
+                        Это не просто спорт, а настоящая страсть, которая заставляет сердца биться чаще.
+                    </p>
+                    <p>
+                        Великие футболисты, такие как Пеле, Марадона и Месси, вдохновляют новые поколения на достижение
+                        высоких спортивных результатов. Командная игра, тактика, скорость и техника делают футбол
+                        невероятно зрелищным.
+                    </p>
+                    <p>
+                        Каждые четыре года миллионы фанатов собираются, чтобы наблюдать за чемпионатом мира по футболу.
+                        Этот турнир определяет лучшую национальную сборную и приносит незабываемые эмоции.
+                    </p>
+                    <p>
+                        Футбол учит нас работать в команде, быть настойчивыми и никогда не сдаваться. Он объединяет людей
+                        по всему миру, независимо от возраста, национальности и социального статуса.
+                    </p>
+                    <a href="/">Вернуться на главную</a>
+                </body>
+            </html>
+    '''
+    return html_content, 200, {
+            'Content-Language': 'ru-RU',
+            'Link': 'https://example.com',
+            'Info': 'Info'
+        }
+
+    
+
+if __name__ == '__main__':
+    app.run(debug=True)
