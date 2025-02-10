@@ -320,7 +320,14 @@ def football():
             'Info': 'Info'
         }
 
-    
+@app.route('/lab2/a')    
+def a():
+    return 'ok'
+
+@app.route('/lab2/a/')    
+def a2():
+    return 'ok'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
