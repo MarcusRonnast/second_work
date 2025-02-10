@@ -139,3 +139,123 @@ def created():
             </html>
         ''', 201
 
+
+@lab1.route('/400')
+def bad_request():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>400: Bad Request:Сервер не может обработать запрос из-за клиентской ошибки.</h1>
+                </body>
+            </html>
+        ''', 400
+
+
+@lab1.route('/401')
+def unauthorized():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>401: Unauthorized:Для доступа к ресурсу требуется аутентификация.</h1>
+                </body>
+            </html>
+        ''', 401
+
+
+@lab1.route('/402')
+def payment_required():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>402: Payment Required:Необходима оплата для доступа к ресурсу.</h1>
+                </body>
+            </html>
+        ''', 402
+
+
+@lab1.route('/403')
+def forbidden():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>403: Forbidden:Доступ к ресурсу запрещён.</h1>
+                </body>
+            </html>
+        ''', 403
+
+
+@lab1.route('/405')
+def method_not_allowed():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>405: Method Not Allowed:Используемый метод HTTP не поддерживается для данного ресурса.</h1>
+                </body>
+            </html>
+        ''', 405
+
+
+@lab1.route('/418')
+def teapot():
+    return '''
+        <!doctype html>
+            <html>
+                <body>
+                    <h1>418: I'm a Teapot:Я — чайник, и я не могу заваривать кофе.</h1>
+                </body>
+            </html>
+        ''', 418
+
+
+@lab1.route('/error')
+def cause_error():
+    # Намеренно вызываем ошибку деления на ноль
+    result = 10 / 0
+    return "Этот код никогда не выполнится."
+
+
+@lab1.route('/football')
+def football():
+    image_path = url_for("static", filename="football.jpg")  
+    css_path = url_for("static", filename="lab1.css")
+    return f'''
+        <!doctype html>
+            <html>
+                <head>
+                    <title>Статья о футболе</title>
+                    <link rel="stylesheet" href="{css_path}">
+                </head>
+                <body>
+                    <h1 style="text-align: center;">Футбол — король спорта</h1>
+                    <img src="{image_path}" alt="Футбол" class="football">
+                    <p>
+                        Футбол — это самая популярная игра в мире, объединяющая миллионы болельщиков и игроков.
+                        Это не просто спорт, а настоящая страсть, которая заставляет сердца биться чаще.
+                    </p>
+                    <p>
+                        Великие футболисты, такие как Пеле, Марадона и Месси, вдохновляют новые поколения на достижение
+                        высоких спортивных результатов. Командная игра, тактика, скорость и техника делают футбол
+                        невероятно зрелищным.
+                    </p>
+                    <p>
+                        Каждые четыре года миллионы фанатов собираются, чтобы наблюдать за чемпионатом мира по футболу.
+                        Этот турнир определяет лучшую национальную сборную и приносит незабываемые эмоции.
+                    </p>
+                    <p>
+                        Футбол учит нас работать в команде, быть настойчивыми и никогда не сдаваться. Он объединяет людей
+                        по всему миру, независимо от возраста, национальности и социального статуса.
+                    </p>
+                    <a href="/">Вернуться на главную</a>
+                </body>
+            </html>
+    '''
+    return html_content, 200, {
+            'Content-Language': 'ru-RU',
+            'Link': 'https://example.com',
+            'Info': 'Info'
+        }
