@@ -1,6 +1,9 @@
 from flask import Flask, url_for, redirect, render_template, abort
+from lab1 import lab1
 
 app = Flask(__name__)
+app.register_blueprint(lab1)
+
 
 @app.route("/")
 @app.route("/index")
@@ -28,44 +31,6 @@ def main_page():
             </html>
         '''
 
-@app.route("/lab1")
-def lab1():
-    return '''
-        <!doctype html>
-            <html>
-                <head>
-                    <title>Лабораторная 1</title>
-                </head>
-                <body>
-                    <p>Flask — фреймворк для создания веб-приложений на языке
-                        программирования Python, использующий набор инструментов
-                        Werkzeug, а также шаблонизатор Jinja2. Относится к категории так
-                        называемых микрофреймворков — минималистичных каркасов
-                        веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
-                    <a href="/">Корень сайта</a>
-                    <h2>Список роутов</h2>
-                    <ul>
-                        <li><a href="/">Главная страница</a></li>
-                        <li><a href="/lab1">Лабораторная 1</a></li>
-                        <li><a href="/lab1/web">Web-сервер на Flask</a></li>
-                        <li><a href="/lab1/author">Автор</a></li>
-                        <li><a href="/lab1/oak">Дуб</a></li>
-                        <li><a href="/lab1/counter">Счетчик</a></li>
-                        <li><a href="/lab1/cleaner">Сброс счетчика</a></li>
-                        <li><a href="/lab1/info">Информация (редирект)</a></li>
-                        <li><a href="/lab1/created">Страница Created</a></li>
-                        <li><a href="/football">Статья о футболе</a></li>
-                        <li><a href="/400">Ошибка 400</a></li>
-                        <li><a href="/401">Ошибка 401</a></li>
-                        <li><a href="/402">Ошибка 402</a></li>
-                        <li><a href="/403">Ошибка 403</a></li>
-                        <li><a href="/405">Ошибка 405</a></li>
-                        <li><a href="/418">Ошибка 418 (Я чайник!)</a></li>
-                        <li><a href="/error">Создать ошибку 500</a></li>
-                    </ul>
-                </body>
-            </html>
-        '''
 
 @app.errorhandler(404)
 def not_found(err):
@@ -88,96 +53,6 @@ def not_found(err):
             </html>
         ''', 404
 
-@app.route("/lab1/web")
-def web():
-    return """<!doctype html>
-        <html>
-           <body>
-               <h1>web-сервер на flask</h1>
-               <a href="/lab1/author">author</a>
-           </body>
-        </html>""", 200, {
-            'X-Server': 'sample',
-            'Content-Type': 'text/html; charset=utf-8'
-        }
-
-@app.route("/lab1/author")
-def author():
-    name = "Чернышов Марк Сергеевич"
-    group = "ФБИ-22"
-    faculty = "ФБ"
-
-    return f"""<!doctype html>
-        <html>
-            <body>
-                <p>Студент: {name}</p>
-                <p>Группа: {group}</p>
-                <p>Факультет: {faculty}</p>
-                <a href="/lab1/web">web</a>
-            </body>
-        </html>"""
-
-@app.route('/lab1/oak')
-def oak():
-    path = url_for("static", filename="oak.jpg")
-    css_path = url_for("static", filename="lab1.css")
-    return f'''
-        <!doctype html>
-            <html>
-                <head>
-                    <link rel="stylesheet" href="{css_path}">
-                </head>
-                <body>
-                    <h1>Дуб</h1>
-                    <img src="{path}">
-                </body>
-            </html>
-        '''
-
-count = 0
-
-@app.route('/lab1/counter')
-def counter():
-    global count
-    count += 1
-    return f'''
-        <!doctype html>
-            <html>
-                <body>
-                    Сколько раз вы сюда заходили: {count}
-                </body>
-            </html>
-        '''
-
-@app.route('/lab1/cleaner')
-def cleaner():
-    global count
-    count = 0
-    return '''
-        <!doctype html>
-            <html>
-                <body>
-                    <p>Счётчик сброшен успешно</p>
-                    <a href="/lab1/counter">Вернуться к счетчику</a>
-                </body>
-            </html>
-        '''
-
-@app.route("/lab1/info")
-def info():
-    return redirect("/lab1/author")
-
-@app.route("/lab1/created")
-def created():
-    return '''
-        <!doctype html>
-            <html>
-                <body>
-                    <h1>Создано успешно</h1>
-                    <div><i>что-то создано...</i></div>
-                </body>
-            </html>
-        ''', 201
 
 def error_page(code, description):
     return f'''
@@ -188,7 +63,8 @@ def error_page(code, description):
                 </body>
             </html>
         ''', code
-# Страница с кодом 400 (Bad Request)
+
+
 @app.route('/400')
 def bad_request():
     return '''
@@ -200,7 +76,7 @@ def bad_request():
             </html>
         ''', 400
 
-# Страница с кодом 401 (Unauthorized)
+
 @app.route('/401')
 def unauthorized():
     return '''
@@ -212,7 +88,7 @@ def unauthorized():
             </html>
         ''', 401
 
-# Страница с кодом 402 (Payment Required)
+
 @app.route('/402')
 def payment_required():
     return '''
@@ -224,7 +100,7 @@ def payment_required():
             </html>
         ''', 402
 
-# Страница с кодом 403 (Forbidden)
+
 @app.route('/403')
 def forbidden():
     return '''
@@ -236,7 +112,7 @@ def forbidden():
             </html>
         ''', 403
 
-# Страница с кодом 405 (Method Not Allowed)
+
 @app.route('/405')
 def method_not_allowed():
     return '''
@@ -248,7 +124,7 @@ def method_not_allowed():
             </html>
         ''', 405
 
-# Страница с кодом 418 (I'm a Teapot)
+
 @app.route('/418')
 def teapot():
     return '''
@@ -261,14 +137,13 @@ def teapot():
         ''', 418
 
 
-
 @app.route('/error')
 def cause_error():
     # Намеренно вызываем ошибку деления на ноль
     result = 10 / 0
     return "Этот код никогда не выполнится."
 
-# Перехватчик ошибки 500
+
 @app.errorhandler(500)
 def internal_server_error(error):
     # Пользовательская страница с сообщением об ошибке
@@ -285,6 +160,7 @@ def internal_server_error(error):
                 </body>
             </html>
         ''', 500
+
 
 @app.route('/football')
 def football():
@@ -327,13 +203,16 @@ def football():
             'Info': 'Info'
         }
 
+
 @app.route('/lab2/a')    
 def a():
     return 'ok'
 
+
 @app.route('/lab2/a/')    
 def a2():
     return 'ok'
+
 
 flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
 @app.route('/lab2/flowers/<int:flower_id>')
@@ -351,7 +230,8 @@ def flowers(flower_id):
             </body>
         </html>
         '''
-    
+
+
 @app.route('/lab2/add_flower/', defaults={'name': None})
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
@@ -370,6 +250,7 @@ def add_flower(name):
     '''
     else:
         abort(400, description="Вы не задали имя цветка")
+
 
 @app.route('/lab2/flowers')
 def all_flowers():
@@ -391,6 +272,7 @@ def all_flowers():
     </html>
     '''
     
+
 @app.route('/lab2/clear_flowers')
 def clear_flowers():
     flower_list.clear()
@@ -403,6 +285,7 @@ def clear_flowers():
         </body>
     </html>
     '''
+
 
 @app.route('/lab2/example')
 def example():
@@ -422,14 +305,17 @@ def example():
                            lab_num = lab_num, 
                            group=group, fruits = fruits )
 
+
 @app.route('/lab2/')
 def lab2():
     return render_template('lab2.html')
+
 
 @app.route('/lab2/filters')
 def filters():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase=phrase)
+
 
 @app.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
@@ -448,10 +334,13 @@ def calc(a, b):
                            div_result=div_result, 
                            pow_result=pow_result)
 
+
+
 # Перенаправление на маршрут с двумя единицами
 @app.route('/lab2/calc/')
 def calc_default():
     return redirect(url_for('calc', a=1, b=1))
+
 
 # Перенаправление на маршрут с одним числом
 @app.route('/lab2/calc/<int:a>')
@@ -471,10 +360,12 @@ books = [
     {"author": "Артур Конан Дойл", "title": "Шерлок Холмс", "genre": "Детектив", "pages": 307},
 ]
 
+
 # Обработчик для отображения списка книг
 @app.route('/lab2/books')
 def show_books():
     return render_template('books.html', books=books)
+
 
 @app.route('/lab2/cars')
 def cars():
