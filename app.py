@@ -451,5 +451,23 @@ def calc_default():
 def calc_single(a):
     return redirect(url_for('calc', a=a, b=1))
 
+books = [
+    {"author": "Лев Толстой", "title": "Война и мир", "genre": "Роман", "pages": 1225},
+    {"author": "Фёдор Достоевский", "title": "Преступление и наказание", "genre": "Роман", "pages": 672},
+    {"author": "Антон Чехов", "title": "Рассказы", "genre": "Классика", "pages": 350},
+    {"author": "Михаил Булгаков", "title": "Мастер и Маргарита", "genre": "Фантастика", "pages": 480},
+    {"author": "Джордж Оруэлл", "title": "1984", "genre": "Антиутопия", "pages": 328},
+    {"author": "Рэй Брэдбери", "title": "451° по Фаренгейту", "genre": "Фантастика", "pages": 256},
+    {"author": "Джоан Роулинг", "title": "Гарри Поттер и философский камень", "genre": "Фэнтези", "pages": 432},
+    {"author": "Джон Толкин", "title": "Властелин колец", "genre": "Фэнтези", "pages": 1178},
+    {"author": "Агата Кристи", "title": "Убийство в Восточном экспрессе", "genre": "Детектив", "pages": 256},
+    {"author": "Артур Конан Дойл", "title": "Шерлок Холмс", "genre": "Детектив", "pages": 307},
+]
+
+# Обработчик для отображения списка книг
+@app.route('/lab2/books')
+def show_books():
+    return render_template('books.html', books=books)
+
 if __name__ == '__main__':
     app.run(debug=True)
