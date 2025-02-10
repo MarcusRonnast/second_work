@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, render_template
+from flask import Flask, url_for, redirect, render_template, abort
 
 app = Flask(__name__)
 
@@ -329,21 +329,74 @@ def a2():
     return 'ok'
 
 flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
-
+@app.route('/lab2/flowers/<int:flower_id>')
+def flowers(flower_id):
+    if flower_id >= len(flower_list):
+        return "Такого цветка нет", 404
+    else:
+        flower_name = flower_list[flower_id]
+        return f'''
+        <!doctype html>
+        <html>
+            <body>
+                <h1>Цветок: {flower_name}</h1>
+                <p><a href="/lab2/flowers">Список всех цветков</a></p>
+            </body>
+        </html>
+        '''
+    
+@app.route('/lab2/add_flower/', defaults={'name': None})
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
-    flower_list.append(name)
+    if name:
+        flower_list.lab2end(name)
+        return f'''
+    <!doctype html>
+    <html>
+        <body>
+            <h1>Добавлен новый цветок</h1>
+            <p>Название нового цветка: {name}</p>
+            <p>Всего цветков: {len(flower_list)}</p>
+            <p>Полный список: {flower_list}</p>
+        </body>
+    </html>
+    '''
+    else:
+        abort(400, description="Вы не задали имя цветка")
+
+@app.route('/lab2/flowers')
+def all_flowers():
+    flower_items = ""
+    for flower in flower_list:
+        flower_items += f'<li>{flower}</li>'
+        
     return f'''
-<!doctype html>
-<html>
-    <body>
-        <h1>Добавлен новый цветок</h1>
-        <p>Название нового цветка: {name}</p>
-        <p>Всего цветов: {len(flower_list)}</p>
-        <p>Полный список: {flower_list}</p>
-    </body>
-</html>
-'''
+    <!doctype html>
+    <html>
+        <body>
+            <h1>Все цветы</h1>
+            <ul>
+                {flower_items}
+            </ul>
+            <p>Всего цветков: {len(flower_list)}</p>
+            <p><a href="/lab2/clear_flowers">Очистить список цветов</a></p>
+        </body>
+    </html>
+    '''
+    
+@app.route('/lab2/clear_flowers')
+def clear_flowers():
+    flower_list.clear()
+    return f'''
+    <!doctype html>
+    <html>
+        <body>
+            <h1>Список цветов очищен!</h1>
+            <p><a href="/lab2/flowers">Список всех цветков</a></p>
+        </body>
+    </html>
+    '''
+
 @app.route('/lab2/example')
 def example():
     course = '3'
@@ -370,6 +423,8 @@ def lab2():
 def filters():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase=phrase)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
