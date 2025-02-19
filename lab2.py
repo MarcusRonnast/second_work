@@ -98,7 +98,7 @@ def example():
         {'name': 'мандарины', 'price': 95},
         {'name': 'манго', 'price': 321}
     ]
-    return render_template('example.html', name = name, 
+    return render_template('lab2/example.html', name = name, 
                            course = course, 
                            lab_num = lab_num, 
                            group=group, fruits = fruits )
@@ -106,13 +106,13 @@ def example():
 
 @lab2.route('/lab2/')
 def lab():
-    return render_template('lab2.html')
+    return render_template('lab2/lab2.html')
 
 
 @lab2.route('/lab2/filters')
 def filters():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase=phrase)
+    return render_template('lab2/filter.html', phrase=phrase)
 
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
@@ -123,7 +123,7 @@ def calc(a, b):
     div_result = a / b if b != 0 else "не определено (деление на ноль)"
     pow_result = a ** b
 
-    return render_template('calc.html', 
+    return render_template('lab2/calc.html', 
                            a=a, 
                            b=b, 
                            sum_result=sum_result, 
@@ -162,7 +162,7 @@ books = [
 # Обработчик для отображения списка книг
 @lab2.route('/lab2/books')
 def show_books():
-    return render_template('books.html', books=books)
+    return render_template('lab2/books.html', books=books)
 
 
 @lab2.route('/lab2/cars')
@@ -179,4 +179,4 @@ def cars():
         {'name': 'BMW X5', 'img': b4, 'info': 'Оснащенный новыми технологиями, обеспечивающими больше безопасности и максимум динамики на любых покрытиях, BMW X5 является безусловным лидером.'},
         {'name': 'BMW X6', 'img': b5, 'info': 'BMW X6 отличается уникальным внешним видом и спортивной динамичностью благодаря мощному двигателю, точно настроенной подвеске и широкой комплектации'}
     ]
-    return render_template('cars.html', cars = cars)
+    return render_template('lab2/cars.html', cars = cars)

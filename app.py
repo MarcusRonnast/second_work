@@ -41,8 +41,8 @@ def main_page():
 
 @app.errorhandler(404)
 def not_found(err):
-    path = url_for("static", filename="404.jpg")
-    css_path = url_for("static", filename="lab1.css")    
+    path = url_for("static", filename="lab1/404.jpg")
+    css_path = url_for("static", filename="lab1/lab1.css")    
     return f'''
         <!doctype html>
             <html>

@@ -75,8 +75,8 @@ def author():
 
 @lab1.route('/lab1/oak')
 def oak():
-    path = url_for("static", filename="oak.jpg")
-    css_path = url_for("static", filename="lab1.css")
+    path = url_for("static", filename="lab1/oak.jpg")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
         <!doctype html>
             <html>
@@ -221,8 +221,8 @@ def cause_error():
 
 @lab1.route('/football')
 def football():
-    image_path = url_for("static", filename="football.jpg")  
-    css_path = url_for("static", filename="lab1.css")
+    image_path = url_for("static", filename="lab1/football.jpg")  
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
         <!doctype html>
             <html>
