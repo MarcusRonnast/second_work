@@ -8,7 +8,16 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon-16x16.png') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-
+        <style>
+            body {
+                {% if color or background_color or font_size or font_weight %}
+                color: {{ color or '#000000' }};
+                background-color: {{ background_color or '#ffffff' }};
+                font-size: {{ font_size or '16' }}px;
+                font-weight: {{ font_weight or 'normal' }};
+                {% endif %}
+            }
+        </style>
     </head>
     <body>
         <header>
