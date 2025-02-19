@@ -149,3 +149,13 @@ def ticket():
                                price=price)
     
     return render_template('lab3/ticket.html')
+
+
+@lab3.route('/lab3/clear_cookies', methods=['POST'])
+def clear_cookies():
+    resp = make_response(redirect('/lab3/settings'))
+    resp.set_cookie('color', '#000000')
+    resp.set_cookie('background_color', '#ffffff')
+    resp.set_cookie('font_size', '16')
+    resp.set_cookie('font_weight', 'normal')
+    return resp
