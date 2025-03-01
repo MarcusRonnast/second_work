@@ -78,7 +78,15 @@ def add_film():
 
     # Проверяем, что все необходимые поля присутствуют
     if not film or not all(key in film for key in ['title', 'title_ru', 'year', 'description']):
-        return jsonify({"error": "Неверные данные"}), 400  # Возвращаем ошибку 400, если данные некорректны
+        return jsonify({"error": "Неверные данные", "description": "Все поля должны быть заполнены"}), 400
+
+    # Если оригинальное название пустое, используем русское название
+    if not film['title']:
+        film['title'] = film['title_ru']
+
+    # Проверяем, что год является числом
+    if not isinstance(film['year'], int):
+        return jsonify({"error": "Неверные данные", "description": "Год должен быть числом"}), 400
 
     # Добавляем фильм в список
     films.append(film)

@@ -6,16 +6,16 @@ function fillFilmList() {
     .then(function (films){
         let tbody = document.getElementById('film-list');
         tbody.innerHTML = '';
-        for(let i = 0; i<films.length; i++){
+        for(let i = 0; i < films.length; i++){
             let tr = document.createElement('tr');
 
-            let tdTitle = document.createElement('td');
             let tdTitleRus = document.createElement('td');
+            let tdTitle = document.createElement('td');
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-            tdTitle.innerText = films[i].title == films[i].title_ru ? '' : films[i].title;
             tdTitleRus.innerText = films[i].title_ru;
+            tdTitle.innerHTML = films[i].title === films[i].title_ru ? '' : `<span class="original-title">(${films[i].title})</span>`;
             tdYear.innerText = films[i].year;
 
             let editButton = document.createElement('button');
@@ -32,15 +32,14 @@ function fillFilmList() {
             tdActions.append(editButton);
             tdActions.append(delButton);
 
-            tr.append(tdTitle);
             tr.append(tdTitleRus);
+            tr.append(tdTitle);
             tr.append(tdYear);
             tr.append(tdActions);
             
             tbody.append(tr);
-            
         }
-    })
+    });
 }
 function deleteFilm(id, title){
     if(! confirm(`Вы точно хотите удалить фильм "${title}"?`))
@@ -93,25 +92,21 @@ function sendFilm() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Ошибка при добавлении фильма');
+            return response.json().then(err => { throw err; }); // Обрабатываем ошибку сервера
         }
-        return response.json(); // Обрабатываем JSON-ответ
+        return response.json(); // Обрабатываем успешный ответ
     })
     .then(data => {
-        if(resp.ok){
-            fillFilmList();
-            hideModal();
-            return {}
-        }
-        return resp.json()
-    })
-    .then(function(errors){
-        if(errors.description)
-            document.getElementById('description-error').innerText = errors.description;
+        fillFilmList(); // Обновляем список фильмов
+        hideModal(); // Скрываем модальное окно
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        alert('Не удалось добавить фильм');
+        if (error.description) {
+            document.getElementById('description-error').innerText = error.description;
+        } else {
+            alert('Не удалось добавить фильм: ' + (error.message || 'Неизвестная ошибка'));
+        }
     });
 }
 function editFilm(id){
