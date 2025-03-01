@@ -78,3 +78,89 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #4a90e2;
+  margin-top: 20px;
+}
+
+/* Стили для списка офисов */
+#office-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+#office-list li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#office-list li:hover {
+  background-color: #f9f9f9;
+}
+
+/* Стили для кнопок */
+button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+button:active {
+  background-color: #2a5f8a;
+}
+
+/* Стили для текста */
+#total-price {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-top: 20px;
+}
+
+/* Стили для сообщений об ошибках */
+.alert {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.alert.error {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.alert.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
