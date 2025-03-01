@@ -20,5 +20,10 @@
             {%endif%}
         </div>
     </div>
+    <div class="container" >
+        {% if login %}
+                <a  style="background-color: red;" class="button" href="/lab5/logout">Выйти</a>
+        {% endif %}
+    </div>
     
 {% endblock %}
