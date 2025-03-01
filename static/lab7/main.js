@@ -49,3 +49,56 @@ function deleteFilm(id, title){
         });
 
 }
+
+function showModal() {
+    document.querySelector('div.modal').style.display = 'block';
+}
+
+function hideModal() {
+    document.querySelector('div.modal').style.display = 'none';
+}
+
+function cancel() {
+    hideModal();
+}
+
+function addFilm() {
+    // Очистка полей формы
+    document.getElementById('title').value = '';
+    document.getElementById('title-ru').value = '';
+    document.getElementById('year').value = '';
+    document.getElementById('description').value = '';
+    showModal();
+}
+
+function sendFilm() {
+    const film = {
+        title: document.getElementById('title').value,
+        title_ru: document.getElementById('title-ru').value,
+        year: parseInt(document.getElementById('year').value), // Преобразуем год в число
+        description: document.getElementById('description').value
+    };
+
+    const url = `/lab7/rest-api/films/`;
+    const method = 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(film)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при добавлении фильма');
+        }
+        return response.json(); // Обрабатываем JSON-ответ
+    })
+    .then(data => {
+        fillFilmList(); // Обновляем список фильмов
+        hideModal(); // Скрываем модальное окно
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Не удалось добавить фильм');
+    });
+}

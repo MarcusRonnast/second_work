@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, jsonify, abort
-import jsonify
 
 lab7 = Blueprint('lab7', __name__)
 
@@ -73,8 +72,16 @@ def put_film(id):
     return films[id]
 
 
-@lab7.route('/lab7/rest-api/films/>', methods=['POST'])
+@lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
-    film = request.get_json()
+    film = request.get_json()  # Получаем данные из запроса
+
+    # Проверяем, что все необходимые поля присутствуют
+    if not film or not all(key in film for key in ['title', 'title_ru', 'year', 'description']):
+        return jsonify({"error": "Неверные данные"}), 400  # Возвращаем ошибку 400, если данные некорректны
+
+    # Добавляем фильм в список
     films.append(film)
-    return jsonify({id: len(films) - 1}), 201
+
+    # Возвращаем ID добавленного фильма (индекс в списке)
+    return jsonify({"id": len(films) - 1}), 201
