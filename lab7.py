@@ -45,9 +45,19 @@ films = [
 def get_films():
     return films
 
+
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
     # Проверка, что id находится в допустимом диапазоне
     if id < 0 or id >= len(films):
         abort(404)  # Возвращаем ошибку 404, если id выходит за пределы
     return jsonify(films[id])
+
+
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
+def del_film(id):
+    # Проверка, что id находится в допустимом диапазоне
+    if id < 0 or id >= len(films):
+        abort(404)  # Возвращаем ошибку 404, если id выходит за пределы
+    del films[id]
+    return '', 204  # Возвращаем пустой ответ с кодом 204 (No Content)
