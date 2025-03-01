@@ -83,8 +83,8 @@ function sendFilm() {
         description: document.getElementById('description').value
     };
 
-      const url = `/lab7/rest-api/films/${id}`;
-    const method = id === '' ? 'POST': 'PUT';
+    const url = id === '' ? '/lab7/rest-api/films/' : `/lab7/rest-api/films/${id}`;
+    const method = id === '' ? 'POST' : 'PUT';
 
     fetch(url, {
         method: method,
@@ -98,8 +98,16 @@ function sendFilm() {
         return response.json(); // Обрабатываем JSON-ответ
     })
     .then(data => {
-        fillFilmList(); // Обновляем список фильмов
-        hideModal(); // Скрываем модальное окно
+        if(resp.ok){
+            fillFilmList();
+            hideModal();
+            return {}
+        }
+        return resp.json()
+    })
+    .then(function(errors){
+        if(errors.description)
+            document.getElementById('description-error').innerText = errors.description;
     })
     .catch(error => {
         console.error('Ошибка:', error);
